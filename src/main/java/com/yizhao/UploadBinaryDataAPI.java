@@ -12,6 +12,7 @@ import org.vertx.java.core.Vertx;
 import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.http.HttpServerFileUpload;
 import org.vertx.java.core.http.HttpServerRequest;
+import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
@@ -33,7 +34,10 @@ public class UploadBinaryDataAPI extends PingVerticle {
 				}).endHandler(new Handler<Void>() {
 					@Override
 					public void handle(Void arg0) {
-						radis(buffer);
+						JsonObject response = new JsonObject();
+						response.putString("status", radis(buffer));
+						container.logger().info("response.encode():" + response.encode());
+						bridge_between_server_and_client.response().end(response.encode());
 					}
 
 				});
@@ -42,11 +46,11 @@ public class UploadBinaryDataAPI extends PingVerticle {
 		});
 	}
 
-	public void radis(Buffer buffer) {
+	public String radis(Buffer buffer) {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
 		byte[] key = { 'k' };
 		byte[] value = buffer.getBytes();
-		jedis.set(key, value);
+		return jedis.set(key, value);
 	}
 }

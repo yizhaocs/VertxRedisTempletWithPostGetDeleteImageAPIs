@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
+import org.vertx.java.core.Vertx;
+import org.vertx.java.core.http.HttpServerRequest;
+import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
@@ -16,12 +19,15 @@ public class DownloadBinaryDatAPI extends PingVerticle {
 
 	}
 
-	public byte[] download() {
+	public void download(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
 		byte[] key = { 'k' };
-		System.out.println(Arrays.toString(key));
-		container.logger().info(Arrays.toString(key));
-		return jedis.get(key);
+
+		JsonObject response = new JsonObject();
+		response.putString("status", "0");
+		response.putBinary("result", jedis.get(key));
+		bridge_between_server_and_client.response().end(response.encode());
+		
 	}
 }

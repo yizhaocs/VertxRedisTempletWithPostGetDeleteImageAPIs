@@ -84,7 +84,7 @@ public class PingVerticle extends Verticle {
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				container.logger().info("mDownloadBinaryDatAPI");
 				mDownloadBinaryDatAPI = new DownloadBinaryDatAPI();
-				mDownloadBinaryDatAPI.download();
+				mDownloadBinaryDatAPI.download(vertx, bridge_between_server_and_client);
 			}
 		});
 
