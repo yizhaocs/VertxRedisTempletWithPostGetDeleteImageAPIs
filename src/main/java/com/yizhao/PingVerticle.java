@@ -35,9 +35,8 @@ import org.vertx.java.platform.Verticle;
 public class PingVerticle extends Verticle {
 	UploadBinaryDataAPI mUploadBinaryDataAPI;
 	DownloadBinaryDatAPI mDownloadBinaryDatAPI;
-
-	public void start() {
-
+	
+	private void init(){
 		// vertx.eventBus().registerHandler("ping-address",
 		// new Handler<Message<String>>() {
 		// @Override
@@ -56,6 +55,10 @@ public class PingVerticle extends Verticle {
 		// req.response().sendFile("webroot/" + file);
 		// }
 		// }).listen(8080);
+		
+	}
+	public void start() {
+		init();
 		RouteMatcher httpRouteMatcher = new RouteMatcher();
 		HttpServer httpServer = vertx.createHttpServer();
 		httpServer.requestHandler(httpRouteMatcher);
