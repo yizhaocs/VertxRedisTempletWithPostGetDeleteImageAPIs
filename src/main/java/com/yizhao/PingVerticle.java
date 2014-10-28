@@ -38,45 +38,47 @@ public class PingVerticle extends Verticle {
 
 	public void start() {
 
-//		vertx.eventBus().registerHandler("ping-address",
-//				new Handler<Message<String>>() {
-//					@Override
-//					public void handle(Message<String> message) {
-//						message.reply("pong!");
-//						container.logger().info("Sent back pong");
-//					}
-//				});
+		// vertx.eventBus().registerHandler("ping-address",
+		// new Handler<Message<String>>() {
+		// @Override
+		// public void handle(Message<String> message) {
+		// message.reply("pong!");
+		// container.logger().info("Sent back pong");
+		// }
+		// });
 		container.deployVerticle(PingVerticle.class.getCanonicalName(), 1);
 		// container.logger().info("PingVerticle started");
-//		vertx.createHttpServer()
-//				.requestHandler(new Handler<HttpServerRequest>() {
-//					public void handle(HttpServerRequest req) {
-//						String file = req.path().equals("/") ? "index.html"
-//								: req.path();
-//						req.response().sendFile("webroot/" + file);
-//					}
-//				}).listen(8080);
+		// vertx.createHttpServer()
+		// .requestHandler(new Handler<HttpServerRequest>() {
+		// public void handle(HttpServerRequest req) {
+		// String file = req.path().equals("/") ? "index.html"
+		// : req.path();
+		// req.response().sendFile("webroot/" + file);
+		// }
+		// }).listen(8080);
 		RouteMatcher httpRouteMatcher = new RouteMatcher();
 		HttpServer httpServer = vertx.createHttpServer();
 		httpServer.requestHandler(httpRouteMatcher);
 		httpServer.listen(8080, "0.0.0.0");
-		
+
+		// curl -v -X POST http://localhost:8080/redis -F "file=@3.png" --trace-ascii /dev/stdout
 		httpRouteMatcher.post("/redis", new Handler<HttpServerRequest>() {
 			@Override
-			public void handle(final HttpServerRequest request) {
+			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				mUploadBinaryDataAPI = new UploadBinaryDataAPI();
 				try {
 					container.logger().info("mUploadBinaryDataAPI");
-					mUploadBinaryDataAPI.upload();
+					mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 
+		// curl -v -X GET http://localhost:8080/redis
 		httpRouteMatcher.get("/redis", new Handler<HttpServerRequest>() {
 			@Override
-			public void handle(final HttpServerRequest request) {
+			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				container.logger().info("mDownloadBinaryDatAPI");
 				mDownloadBinaryDatAPI = new DownloadBinaryDatAPI();
 				mDownloadBinaryDatAPI.download();

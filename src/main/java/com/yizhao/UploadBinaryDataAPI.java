@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
+import org.vertx.java.core.Handler;
+import org.vertx.java.core.Vertx;
+import org.vertx.java.core.buffer.Buffer;
+import org.vertx.java.core.http.HttpServerFileUpload;
+import org.vertx.java.core.http.HttpServerRequest;
 
 import redis.clients.jedis.Jedis;
 
@@ -15,33 +20,33 @@ public class UploadBinaryDataAPI extends PingVerticle {
 
 	}
 
-	public void upload() throws IOException {
+	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) throws IOException {
+		// bridge_between_server_and_client.expectMultiPart(true);
+		bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
+			public void handle(final HttpServerFileUpload upload) {
+				final Buffer buffer = new Buffer();
+				upload.dataHandler(new Handler<Buffer>() {
+					@Override
+					public void handle(Buffer buffer) {
+						buffer.appendBuffer(buffer);
+					}
+				}).endHandler(new Handler<Void>() {
+					@Override
+					public void handle(Void arg0) {
+						radis(buffer);
+					}
+
+				});
+
+			}
+		});
+	}
+
+	public void radis(Buffer buffer) {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
-		FileInputStream in = null;
-		FileOutputStream out = null;
-		try {
-			in = new FileInputStream("image.png");
-			byte[] key = { 'k' };
-			byte[] value = IOUtils.toByteArray(in);
-			jedis.set(key, value);
-			System.out.println(Arrays.toString(jedis.get(key))); // getting the
-																	// key value
-			System.out.println(Arrays.toString(value).equals(
-					Arrays.toString(jedis.get(key))));
-
-		} catch (FileNotFoundException e) {
-			System.out.println("Caught FileNotFoundException: "
-					+ e.getMessage());
-		} catch (IOException e) {
-			System.out.println("Caught IOException: " + e.getMessage());
-		} finally {
-			if (in != null) {
-				in.close();
-			}
-			if (out != null) {
-				out.close();
-			}
-		}
+		byte[] key = { 'k' };
+		byte[] value = buffer.getBytes();
+		jedis.set(key, value);
 	}
 }
