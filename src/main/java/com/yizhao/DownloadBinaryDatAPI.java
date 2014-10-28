@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class DownloadBinaryDatAPI extends MainVerticle {
+public class DownloadBinaryDatAPI extends PingVerticle {
 
 	public DownloadBinaryDatAPI() {
 
@@ -20,6 +20,8 @@ public class DownloadBinaryDatAPI extends MainVerticle {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
 		byte[] key = { 'k' };
+		System.out.println(Arrays.toString(key));
+		container.logger().info(Arrays.toString(key));
 		return jedis.get(key);
 	}
 }

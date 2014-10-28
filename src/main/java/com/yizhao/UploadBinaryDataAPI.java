@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import redis.clients.jedis.Jedis;
 
-public class UploadBinaryDataAPI extends MainVerticle {
+public class UploadBinaryDataAPI extends PingVerticle {
 	public UploadBinaryDataAPI() {
 
 	}
@@ -21,7 +21,7 @@ public class UploadBinaryDataAPI extends MainVerticle {
 		FileInputStream in = null;
 		FileOutputStream out = null;
 		try {
-			in = new FileInputStream("src/main/resources/image.png");
+			in = new FileInputStream("image.png");
 			byte[] key = { 'k' };
 			byte[] value = IOUtils.toByteArray(in);
 			jedis.set(key, value);
