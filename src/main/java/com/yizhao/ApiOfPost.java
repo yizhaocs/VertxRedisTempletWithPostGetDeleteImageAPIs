@@ -11,12 +11,12 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfUpload extends MainVerticle {
-	public ApiOfUpload() {
+public class ApiOfPost extends MainVerticle {
+	public ApiOfPost() {
 
 	}
 
-	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client){
+	public void post(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client){
 		try {
 			bridge_between_server_and_client.expectMultiPart(true);
 			bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
@@ -47,11 +47,12 @@ public class ApiOfUpload extends MainVerticle {
 			});
 		} catch (Exception e) {
 			container.logger().error(e.getStackTrace());
-		} finally {
 			JsonObject response = new JsonObject();
 			response.putString("status", "1");
 			response.putString("statusDescription", "Unknown Error");
 			bridge_between_server_and_client.response().end(response.encodePrettily());
+		} finally {
+			
 		}
 	}
 
@@ -59,6 +60,6 @@ public class ApiOfUpload extends MainVerticle {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
 		byte[] value = mainBuffer.getBytes();
-		return jedis.set(bridge_between_server_and_client.params().get("key"), Arrays.toString(value));
+		return jedis.set(bridge_between_server_and_client.params().get("key").getBytes(), value);
 	}
 }

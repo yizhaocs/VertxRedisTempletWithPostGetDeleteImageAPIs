@@ -28,8 +28,11 @@ import org.vertx.java.platform.Verticle;
  This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
  */
 public class MainVerticle extends Verticle {
-	ApiOfUpload mUploadBinaryDataAPI;
-	ApiOfDownload mDownloadBinaryDatAPI;
+	ApiOfPost mApiOfPost;
+	ApiOfGet mApiOfGet;
+	ApiOfDelete mApiOfDelete;
+	
+	SingletonOfConstantsS cs = SingletonOfConstantsS.getInstance();
 
 	private void init() {
 		container.deployVerticle(MainVerticle.class.getCanonicalName(), 1);
@@ -42,25 +45,34 @@ public class MainVerticle extends Verticle {
 		httpServer.requestHandler(httpRouteMatcher);
 		httpServer.listen(8080, "0.0.0.0");
 
-		// curl -v -X POST http://localhost:8080/upload/3 -F "file=@3.png" --trace-ascii /dev/stdout
-		httpRouteMatcher.post("/upload/:key", new Handler<HttpServerRequest>() {
+		// curl -v -X POST http://localhost:8080/post/5 -F "file=@3.png" --trace-ascii /dev/stdout
+		httpRouteMatcher.post("/post/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
-				container.logger().info("Invoked at Upload API");
-				mUploadBinaryDataAPI = new ApiOfUpload();
-				mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
+				container.logger().info("Invoked at post API");
+				mApiOfPost = new ApiOfPost();
+				mApiOfPost.post(vertx, bridge_between_server_and_client);
 			}
 		});
 
-		// curl -v -X GET http://localhost:8080/download/3
-		httpRouteMatcher.get("/download/:key", new Handler<HttpServerRequest>() {
+		// curl -v -X GET http://localhost:8080/get/5
+		httpRouteMatcher.get("/get/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
-				container.logger().info("Invoked at Download API");
-				mDownloadBinaryDatAPI = new ApiOfDownload();
-				mDownloadBinaryDatAPI.download(vertx, bridge_between_server_and_client);
+				container.logger().info("Invoked at get API");
+				mApiOfGet = new ApiOfGet();
+				mApiOfGet.get(vertx, bridge_between_server_and_client);
 			}
 		});
 
+		// curl -v -X GET http://localhost:8080/delete/3
+		httpRouteMatcher.delete("/delete/:key", new Handler<HttpServerRequest>() {
+			@Override
+			public void handle(final HttpServerRequest bridge_between_server_and_client) {
+				container.logger().info("Invoked at delete API");
+				mApiOfDelete = new ApiOfDelete();
+				mApiOfDelete.delete(vertx, bridge_between_server_and_client);
+			}
+		});
 	}
 }

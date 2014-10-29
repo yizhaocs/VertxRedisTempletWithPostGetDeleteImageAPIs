@@ -1,6 +1,5 @@
 package com.yizhao;
 
-import com.yizhao.integration.java.SingletonOfSwitchesOfClient;
 
 public class SingletonOfSwitchesOfServer {
 	/* Setup for Singleton pattern */

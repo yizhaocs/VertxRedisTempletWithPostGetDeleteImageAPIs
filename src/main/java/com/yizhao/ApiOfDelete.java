@@ -6,28 +6,29 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfDownload extends MainVerticle {
+public class ApiOfDelete extends MainVerticle {
 
-	public ApiOfDownload() {
+	public ApiOfDelete() {
 
 	}
-
-	public void download(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) {
+	
+	public void delete(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) {
 		try {
 			// Connecting to Redis on localhost
 			Jedis jedis = new Jedis("localhost");
 			JsonObject response = new JsonObject();
 			response.putString("status", "0");
 			response.putString("statusDescription", "Success");
-			response.putString("result", jedis.get(bridge_between_server_and_client.params().get("key")));
+			response.putString("result", String.valueOf(jedis.del(bridge_between_server_and_client.params().get("key"))));
 			bridge_between_server_and_client.response().end(response.encodePrettily());
 		} catch (Exception e) {
 			container.logger().error(e.getStackTrace());
-		} finally {
 			JsonObject response = new JsonObject();
 			response.putString("status", "1");
 			response.putString("statusDescription", "Unknown Error");
 			bridge_between_server_and_client.response().end(response.encodePrettily());
+		} finally {
+			
 		}
 	}
 }

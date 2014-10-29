@@ -1,6 +1,6 @@
 package com.yizhao;
 
 public enum StatesOfServer {
-	STATE_UPLOAD, STATE_DOWNLOAD
+	STATE_POST, STATE_GET, STATE_DELETE
 }
 
