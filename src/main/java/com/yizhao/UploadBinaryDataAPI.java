@@ -36,9 +36,9 @@ public class UploadBinaryDataAPI extends PingVerticle {
 					@Override
 					public void handle(Void arg0) {
 						JsonObject response = new JsonObject();
-						response.putString("status", radis(buffer));
-						container.logger().info("response.encode():" + response.encode());
-						bridge_between_server_and_client.response().end(response.encode());
+						response.putString("status", "0");
+						response.putString("result", radis(buffer));
+						bridge_between_server_and_client.response().end(response.encodePrettily());
 					}
 
 				});

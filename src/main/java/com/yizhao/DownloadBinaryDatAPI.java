@@ -27,7 +27,7 @@ public class DownloadBinaryDatAPI extends PingVerticle {
 		JsonObject response = new JsonObject();
 		response.putString("status", "0");
 		response.putBinary("result", jedis.get(key));
-		bridge_between_server_and_client.response().end(response.encode());
+		bridge_between_server_and_client.response().end(response.encodePrettily());
 		
 	}
 }
