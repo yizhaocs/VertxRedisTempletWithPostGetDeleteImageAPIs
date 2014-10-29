@@ -16,14 +16,13 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class Upload extends PingVerticle {
+public class Upload extends MainVerticle {
 	public Upload() {
 
 	}
 
 	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) throws IOException {
 		bridge_between_server_and_client.expectMultiPart(true);
-		// bridge_between_server_and_client.expectMultiPart(true);
 		bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
 			public void handle(final HttpServerFileUpload upload) {
 				final Buffer mainBuffer = new Buffer();
@@ -40,7 +39,6 @@ public class Upload extends PingVerticle {
 						response.putString("result", radis(bridge_between_server_and_client, mainBuffer));
 						bridge_between_server_and_client.response().end(response.encodePrettily());
 					}
-
 				});
 
 			}

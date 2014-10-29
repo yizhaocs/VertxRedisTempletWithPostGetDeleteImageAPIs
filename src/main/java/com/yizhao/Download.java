@@ -13,7 +13,7 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class Download extends PingVerticle {
+public class Download extends MainVerticle {
 
 	public Download() {
 
