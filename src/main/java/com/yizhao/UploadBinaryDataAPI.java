@@ -22,7 +22,8 @@ public class UploadBinaryDataAPI extends PingVerticle {
 	}
 
 	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) throws IOException {
-		// bridge_between_server_and_client.expectMultiPart(true);
+		bridge_between_server_and_client.expectMultiPart(true);
+		//bridge_between_server_and_client.expectMultiPart(true);
 		bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
 			public void handle(final HttpServerFileUpload upload) {
 				final Buffer buffer = new Buffer();
