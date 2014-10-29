@@ -16,14 +16,14 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class UploadBinaryDataAPI extends PingVerticle {
-	public UploadBinaryDataAPI() {
+public class Upload extends PingVerticle {
+	public Upload() {
 
 	}
 
 	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client) throws IOException {
 		bridge_between_server_and_client.expectMultiPart(true);
-		//bridge_between_server_and_client.expectMultiPart(true);
+		// bridge_between_server_and_client.expectMultiPart(true);
 		bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
 			public void handle(final HttpServerFileUpload upload) {
 				final Buffer mainBuffer = new Buffer();
@@ -37,7 +37,7 @@ public class UploadBinaryDataAPI extends PingVerticle {
 					public void handle(Void arg0) {
 						JsonObject response = new JsonObject();
 						response.putString("status", "0");
-						response.putString("result", radis(mainBuffer));
+						response.putString("result", radis(bridge_between_server_and_client, mainBuffer));
 						bridge_between_server_and_client.response().end(response.encodePrettily());
 					}
 
@@ -47,12 +47,10 @@ public class UploadBinaryDataAPI extends PingVerticle {
 		});
 	}
 
-	public String radis(Buffer mainBuffer) {
+	public String radis(HttpServerRequest bridge_between_server_and_client, Buffer mainBuffer) {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
-		byte[] key = { 'k' };
 		byte[] value = mainBuffer.getBytes();
-		
-		return jedis.set("k", Arrays.toString(value));
+		return jedis.set(bridge_between_server_and_client.params().get("key"), Arrays.toString(value));
 	}
 }

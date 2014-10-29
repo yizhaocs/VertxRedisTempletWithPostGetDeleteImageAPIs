@@ -33,8 +33,8 @@ import org.vertx.java.platform.Verticle;
  This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
  */
 public class PingVerticle extends Verticle {
-	UploadBinaryDataAPI mUploadBinaryDataAPI;
-	DownloadBinaryDatAPI mDownloadBinaryDatAPI;
+	Upload mUploadBinaryDataAPI;
+	Download mDownloadBinaryDatAPI;
 	
 	private void init(){
 		// vertx.eventBus().registerHandler("ping-address",
@@ -64,11 +64,11 @@ public class PingVerticle extends Verticle {
 		httpServer.requestHandler(httpRouteMatcher);
 		httpServer.listen(8080, "0.0.0.0");
 
-		// curl -v -X POST http://localhost:8080/redis -F "file=@3.png" --trace-ascii /dev/stdout
-		httpRouteMatcher.post("/redis", new Handler<HttpServerRequest>() {
+		// curl -v -X POST http://localhost:8080/upload/3 -F "file=@3.png" --trace-ascii /dev/stdout
+		httpRouteMatcher.post("/upload/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
-				mUploadBinaryDataAPI = new UploadBinaryDataAPI();
+				mUploadBinaryDataAPI = new Upload();
 				try {
 					container.logger().info("mUploadBinaryDataAPI");
 					mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
@@ -78,12 +78,12 @@ public class PingVerticle extends Verticle {
 			}
 		});
 
-		// curl -v -X GET http://localhost:8080/redis
-		httpRouteMatcher.get("/redis", new Handler<HttpServerRequest>() {
+		// curl -v -X GET http://localhost:8080/download/3
+		httpRouteMatcher.get("/download/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				container.logger().info("mDownloadBinaryDatAPI");
-				mDownloadBinaryDatAPI = new DownloadBinaryDatAPI();
+				mDownloadBinaryDatAPI = new Download();
 				mDownloadBinaryDatAPI.download(vertx, bridge_between_server_and_client);
 			}
 		});
