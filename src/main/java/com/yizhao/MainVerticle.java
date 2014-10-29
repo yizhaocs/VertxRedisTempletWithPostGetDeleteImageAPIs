@@ -28,8 +28,8 @@ import org.vertx.java.platform.Verticle;
  This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
  */
 public class MainVerticle extends Verticle {
-	Upload mUploadBinaryDataAPI;
-	Download mDownloadBinaryDatAPI;
+	ApiOfUpload mUploadBinaryDataAPI;
+	ApiOfDownload mDownloadBinaryDatAPI;
 
 	private void init() {
 		container.deployVerticle(MainVerticle.class.getCanonicalName(), 1);
@@ -47,7 +47,7 @@ public class MainVerticle extends Verticle {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				container.logger().info("Invoked at Upload API");
-				mUploadBinaryDataAPI = new Upload();
+				mUploadBinaryDataAPI = new ApiOfUpload();
 				mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
 			}
 		});
@@ -57,7 +57,7 @@ public class MainVerticle extends Verticle {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
 				container.logger().info("Invoked at Download API");
-				mDownloadBinaryDatAPI = new Download();
+				mDownloadBinaryDatAPI = new ApiOfDownload();
 				mDownloadBinaryDatAPI.download(vertx, bridge_between_server_and_client);
 			}
 		});

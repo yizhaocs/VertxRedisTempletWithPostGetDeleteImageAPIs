@@ -11,8 +11,8 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class Upload extends MainVerticle {
-	public Upload() {
+public class ApiOfUpload extends MainVerticle {
+	public ApiOfUpload() {
 
 	}
 

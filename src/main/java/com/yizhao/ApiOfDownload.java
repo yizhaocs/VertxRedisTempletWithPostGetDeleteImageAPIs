@@ -6,9 +6,9 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class Download extends MainVerticle {
+public class ApiOfDownload extends MainVerticle {
 
-	public Download() {
+	public ApiOfDownload() {
 
 	}
 
