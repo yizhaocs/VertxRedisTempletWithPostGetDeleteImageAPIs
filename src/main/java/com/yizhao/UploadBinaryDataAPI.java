@@ -26,18 +26,18 @@ public class UploadBinaryDataAPI extends PingVerticle {
 		//bridge_between_server_and_client.expectMultiPart(true);
 		bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
 			public void handle(final HttpServerFileUpload upload) {
-				final Buffer buffer = new Buffer();
+				final Buffer mainBuffer = new Buffer();
 				upload.dataHandler(new Handler<Buffer>() {
 					@Override
 					public void handle(Buffer buffer) {
-						buffer.appendBuffer(buffer);
+						mainBuffer.appendBuffer(buffer);
 					}
 				}).endHandler(new Handler<Void>() {
 					@Override
 					public void handle(Void arg0) {
 						JsonObject response = new JsonObject();
 						response.putString("status", "0");
-						response.putString("result", radis(buffer));
+						response.putString("result", radis(mainBuffer));
 						bridge_between_server_and_client.response().end(response.encodePrettily());
 					}
 
@@ -47,11 +47,12 @@ public class UploadBinaryDataAPI extends PingVerticle {
 		});
 	}
 
-	public String radis(Buffer buffer) {
+	public String radis(Buffer mainBuffer) {
 		// Connecting to Redis on localhost
 		Jedis jedis = new Jedis("localhost");
 		byte[] key = { 'k' };
-		byte[] value = buffer.getBytes();
-		return jedis.set(key, value);
+		byte[] value = mainBuffer.getBytes();
+		
+		return jedis.set("k", Arrays.toString(value));
 	}
 }
