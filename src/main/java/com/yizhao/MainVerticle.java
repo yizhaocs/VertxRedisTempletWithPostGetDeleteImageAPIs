@@ -45,7 +45,7 @@ public class MainVerticle extends Verticle {
 		httpServer.requestHandler(httpRouteMatcher);
 		httpServer.listen(8080, "0.0.0.0");
 
-		// curl -v -X POST http://localhost:8080/post/5 -F "file=@3.png" --trace-ascii /dev/stdout
+		// curl -v -X POST http://localhost:8080/post/a -F "file=@3.png" --trace-ascii /dev/stdout
 		httpRouteMatcher.post("/post/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
@@ -55,7 +55,7 @@ public class MainVerticle extends Verticle {
 			}
 		});
 
-		// curl -v -X GET http://localhost:8080/get/5
+		// curl -v -X GET http://localhost:8080/get/a
 		httpRouteMatcher.get("/get/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
@@ -65,7 +65,7 @@ public class MainVerticle extends Verticle {
 			}
 		});
 
-		// curl -v -X GET http://localhost:8080/delete/3
+		// curl -v -X DELETE http://localhost:8080/delete/a
 		httpRouteMatcher.delete("/delete/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
