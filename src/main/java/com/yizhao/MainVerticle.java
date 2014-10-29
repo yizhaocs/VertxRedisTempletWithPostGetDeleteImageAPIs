@@ -18,15 +18,10 @@ package com.yizhao;
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.http.HttpServer;
 import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
-import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 
 /*
@@ -35,28 +30,11 @@ import org.vertx.java.platform.Verticle;
 public class MainVerticle extends Verticle {
 	Upload mUploadBinaryDataAPI;
 	Download mDownloadBinaryDatAPI;
-	
-	private void init(){
-		// vertx.eventBus().registerHandler("ping-address",
-		// new Handler<Message<String>>() {
-		// @Override
-		// public void handle(Message<String> message) {
-		// message.reply("pong!");
-		// container.logger().info("Sent back pong");
-		// }
-		// });
+
+	private void init() {
 		container.deployVerticle(MainVerticle.class.getCanonicalName(), 1);
-		// container.logger().info("PingVerticle started");
-		// vertx.createHttpServer()
-		// .requestHandler(new Handler<HttpServerRequest>() {
-		// public void handle(HttpServerRequest req) {
-		// String file = req.path().equals("/") ? "index.html"
-		// : req.path();
-		// req.response().sendFile("webroot/" + file);
-		// }
-		// }).listen(8080);
-		
 	}
+
 	public void start() {
 		init();
 		RouteMatcher httpRouteMatcher = new RouteMatcher();
@@ -68,13 +46,9 @@ public class MainVerticle extends Verticle {
 		httpRouteMatcher.post("/upload/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
+				container.logger().info("Invoked at Upload API");
 				mUploadBinaryDataAPI = new Upload();
-				try {
-					container.logger().info("mUploadBinaryDataAPI");
-					mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				mUploadBinaryDataAPI.upload(vertx, bridge_between_server_and_client);
 			}
 		});
 
@@ -82,7 +56,7 @@ public class MainVerticle extends Verticle {
 		httpRouteMatcher.get("/download/:key", new Handler<HttpServerRequest>() {
 			@Override
 			public void handle(final HttpServerRequest bridge_between_server_and_client) {
-				container.logger().info("mDownloadBinaryDatAPI");
+				container.logger().info("Invoked at Download API");
 				mDownloadBinaryDatAPI = new Download();
 				mDownloadBinaryDatAPI.download(vertx, bridge_between_server_and_client);
 			}
