@@ -29,15 +29,16 @@ public class SingletonOfPrintingMethodsOfServer {
 	/* Variables*/
 	public static Logger logger;
 	private SingletonOfSwitchesOfServer sos = SingletonOfSwitchesOfServer.getInstance();
+	private SingletonOfConstantsS scs = SingletonOfConstantsS.getInstance();
 	// Logger logger = container.logger();
 
 	protected void printServerTime(StatesOfServer state) {
 		if (sos.isTesting_Print_Switch()) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
-			logger.info("{-----------------Server State:" + state + "-------------------");
-			logger.info("{-----------------Server Time:" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + "-------------------");
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
+			logger.info("{-----------------Server Time:" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date()) + scs.HEADER_END);
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
@@ -45,139 +46,139 @@ public class SingletonOfPrintingMethodsOfServer {
 	protected void printHeaders(StatesOfServer state, List<Entry<String, String>> header) {
 		printServerTime(state);
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printHeaders:" + header.toString());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printCurlBody(StatesOfServer state,Buffer body) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("curlBodyChecker:" + body.toString());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printRawCommandJson(StatesOfServer state, JsonObject raw) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printRawCommandJson:" + raw.encodePrettily());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printTransactionJson(StatesOfServer state, JsonObject raw) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printTransactionJson:" + raw.encodePrettily());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printWhichStateIsTesting(StatesOfServer state) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("HTTP Server is performing " + state + " .");
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printDatabaseMessage(StatesOfServer state, JsonObject databaseMessageBody) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("HTTP Server on state: " + state + ", it just " + "recieved response from database.");
 			logger.info("printDatabaseMessage:");
 			logger.info(databaseMessageBody.encodePrettily());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printQuery(StatesOfServer state, String query) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printQuery:" + query);
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printCurlData(StatesOfServer state, String body) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printCurlData:" + body);
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printDBresponseFromOSGSessionVerificationAPI(StatesOfServer state, JsonObject j) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printDBresponseFromOSGSessionVerificationAPI:" + j.encodePrettily());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printResponseToClient(StatesOfServer state, JsonObject response) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printResponseToClient: " + response.encodePrettily());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printOSGsessionCheckHeaders(StatesOfServer state, HttpClientRequest requestSendFromClienttoServer) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printOSGsessionCheckHeaders: " + requestSendFromClienttoServer.headers().entries().toString());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printOSGsessionCheckResponse(StatesOfServer state, Buffer body) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			if (body != null) {
 				logger.info("printOSGsessionCheckResponse: " + body.toString());
 			} else {
 				logger.info("printOSGsessionCheckResponse: " + "body is null");
 			}
 
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printMultiPartInfo(StatesOfServer state, HttpServerFileUpload upload, Buffer mainBuffer) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("got here too. upload.size() = " + upload.size());
 			logger.info("endHandler() called");
 			logger.info("mainBuffer = " + mainBuffer.length());
 			logger.info("upload.contentType() = " + upload.contentType());
 			logger.info("upload.name() = " + upload.name());
 			logger.info("upload.filename() = " + upload.filename());
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
 
 	protected void printExceptionHandlerTraceStack(StatesOfServer state, Throwable t) {
 		if (sos.isTesting_Print_Switch()) {
-			logger.info("{-----------------Server State:" + state + "-------------------");
+			logger.info(scs.HEADER_BEGIN + state + scs.HEADER_END);
 			logger.info("printExceptionHandlerTraceStack: ");
 			t.printStackTrace();
-			logger.info("----------------------------------------------------------------------------------}");
+			logger.info(scs.END_SMALL);
 			logger.info(" ");
 		}
 	}
