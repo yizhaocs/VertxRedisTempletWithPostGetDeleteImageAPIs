@@ -11,12 +11,12 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfUpload extends MainVerticle {
-	public ApiOfUpload() {
+public class ApiOfPost extends SuperClassOfApis {
+	public ApiOfPost() {
 
 	}
 
-	public void upload(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client){
+	public void post(final Vertx vertx, final HttpServerRequest bridge_between_server_and_client){
 		try {
 			bridge_between_server_and_client.expectMultiPart(true);
 			bridge_between_server_and_client.uploadHandler(new Handler<HttpServerFileUpload>() {
