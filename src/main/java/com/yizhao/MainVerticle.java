@@ -35,7 +35,7 @@ public class MainVerticle extends Verticle {
 	SingletonOfConstantsS cs = SingletonOfConstantsS.getInstance();
 
 	private void init() {
-		container.deployVerticle(MainVerticle.class.getCanonicalName(), 1);
+		//container.deployVerticle(MainVerticle.class.getCanonicalName(), 1);
 	}
 
 	public void start() {
