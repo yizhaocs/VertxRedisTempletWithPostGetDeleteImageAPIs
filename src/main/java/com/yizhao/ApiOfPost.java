@@ -11,7 +11,7 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfPost extends MainVerticle {
+public class ApiOfPost extends SuperClassOfApis {
 	public ApiOfPost() {
 
 	}

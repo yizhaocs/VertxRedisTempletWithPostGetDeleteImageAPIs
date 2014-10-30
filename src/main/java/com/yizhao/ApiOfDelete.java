@@ -6,7 +6,7 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfDelete extends MainVerticle {
+public class ApiOfDelete extends SuperClassOfApis {
 
 	public ApiOfDelete() {
 

@@ -8,7 +8,7 @@ import org.vertx.java.core.json.JsonObject;
 
 import redis.clients.jedis.Jedis;
 
-public class ApiOfGet extends MainVerticle {
+public class ApiOfGet extends SuperClassOfApis {
 
 	public ApiOfGet() {
 
